@@ -5,25 +5,55 @@
 int prop(long int A, long int B, long int C, long int D) {
     return (pow(A, 4) + pow(B, 4) + pow(C, 4) == pow(D, 4));
 }
- 
+
+
+int FindInx(int mod, int maxi)
+{
+	int inx = (int) (pow(mod,1.0/4.0)+0.0001);
+	if(inx>maxi)
+		inx = maxi;
+	return inx;
+}
+
+int d;
+
+int a[3];
+
+void F(int inx, int mod,int maxi,int f)
+{
+	for(int i=inx;i>=1;i--)
+	{
+		int I = pow(i,4);
+		int nmod = mod - I;
+		if(f==2)
+		{
+			if(nmod==0)
+			{
+				 printf("FOUND IT!\na = %ld\nb = %ld\nc = %ld\nd = %ld\n", a[0], a[1], a[2], d);
+			}
+		}
+		else
+		{
+			if(nmod>0)
+			{
+				int ninx = FindInx(nmod,maxi);
+				if(ninx>0)
+					F(ninx,nmod,maxi - 200000,f+1);
+			}
+		}
+	}
+}
+
 int main() {
-    long int a, b, c, d;
+
     clock_t t;
     t = clock();
- 
-    for (a = 1; a < 100000; a++) {
-        for (b = 1; b < 300000; b++) {
-            for (c = 1; c < 500000; c++) {
-                for (d = 1; d < 500000; d++) {
-                    if (prop(a, b, c, d))
-                        printf("FOUND IT!\na = %ld\nb = %ld\nc = %ld\nd = %ld\n", a, b, c, d);
-                }
-                if (!(c%1000))
-                    printf("a = %ld, b = %ld, c = %ld, time = %fs\n", a, b, c, ((double)(clock() - t))/CLOCKS_PER_SEC);
-            }
-            printf("a = %ld, b = %ld, time = %fs\n", a, b, ((double)(clock() - t))/CLOCKS_PER_SEC);
-        }
-        printf("a = %ld, time = %fs\n", a, ((double)(clock() - t))/CLOCKS_PER_SEC);
-    }
- 
+	for (d = 1; d < 500000; d++)
+	{
+		int D = pow(d,4);
+		int inx = d -1;
+		F(inx,D,500000,0);
+		if(d%10==0)
+			printf("d = %ld, time = %fs\n", d, ((double)(clock() - t))/CLOCKS_PER_SEC);
+	} 
 }
