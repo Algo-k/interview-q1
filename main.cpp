@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
- 
-int prop(long int A, long int B, long int C, long int D) {
-    return (pow(A, 4) + pow(B, 4) + pow(C, 4) == pow(D, 4));
-}
 
 
 int FindInx(int mod, int maxi)
